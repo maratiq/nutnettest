@@ -1,2 +1,2 @@
 # nutnettest
-nutnue test
+nutnet test
