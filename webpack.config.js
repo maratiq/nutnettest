@@ -20,6 +20,7 @@ module.exports = {
         port: 9000,
     },
     module: {
+
         rules: [
             {
                 test: /\.tsx?$/,

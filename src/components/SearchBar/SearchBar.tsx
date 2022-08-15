@@ -3,9 +3,12 @@ import styles from './SearchBar.module.css';
 
 
 import Arrow from '../../assets/arrow.svg';
+import {showWeatherBlock} from "../../store/actions";
+import {useAppDispatch} from "../../hooks";
 
 const SearchBar = () => {
     const [inputLocation, setInputLocation] = useState('');
+    const dispatch = useAppDispatch();
 
     const onCityClick = (e: any) => {
         setInputLocation(e.target.textContent);
@@ -15,7 +18,10 @@ const SearchBar = () => {
         e.preventDefault();
         await fetch('https://api.openweathermap.org/data/2.5/weather?q=' + inputLocation + '&appid=6852b987d7fb620280f800f5ddfbe188&lang=ru')
             .then(response => response.json())
-            .then(data => console.log(data))
+            .then(data => {
+                console.log(data);
+                dispatch(showWeatherBlock(true))
+            })
             .catch(error => console.log(error))
     }
 

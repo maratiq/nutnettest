@@ -1,18 +1,24 @@
 import React, {useState} from 'react';
-import styles from './WeatherBlock.module.css'
+import styles from './WeatherBlock.module.css';
 
 import arrowLeft from '../../assets/chevron_big_left.svg';
 import bookmarkIcon from "../../assets/bookmark.svg";
 import thunderstorm from '../../assets/thunderstorm.svg';
 import barometer from '../../assets/barometer.svg';
+import {showWeatherBlock} from "../../store/actions";
+import {useAppDispatch, useAppSelector} from "../../hooks";
 
 const WeatherBlock = () => {
-    const [showComponent, setShowComponent] = useState(false);
-    if (showComponent) {
+    const isShowWeatherBlock = useAppSelector((state) => state.isShowWeatherBlock)
+    const dispatch = useAppDispatch();
+
+    if (isShowWeatherBlock) {
         return (
             <div className={styles.weatherBlock}>
-                <button className={styles.weatherBlock__buttonBack}>
-                    <img src={arrowLeft} alt={'Стрелка влево'}/>
+                <button className={styles.weatherBlock__buttonBack} onClick={() => {
+                    dispatch(showWeatherBlock(false));
+                }}>
+                    <img src={arrowLeft} alt={'Стрелка влево'} />
                     Назад
                 </button>
                 <img className={styles.weatherBlock__bookmark} alt={'Закладка'} src={bookmarkIcon}/>

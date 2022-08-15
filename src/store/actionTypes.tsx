@@ -1,0 +1,1 @@
+export const SHOW_WEATHER_BLOCK = 'SHOW_WEATHER_BLOCK';
