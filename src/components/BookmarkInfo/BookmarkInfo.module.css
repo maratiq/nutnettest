@@ -1,0 +1,16 @@
+.bookmarkInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bookmarkInfo__text {
+    font-family: SF Pro Display, serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19px;
+    text-align: center;
+    color: #8A91AB;
+    width: 244px;
+    margin-bottom: 20px;
+}
