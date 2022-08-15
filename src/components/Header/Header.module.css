@@ -6,6 +6,7 @@
     display: flex;
     align-items: center;
     padding-left: 23px;
+    box-sizing: border-box;
 }
 
 .logo {
