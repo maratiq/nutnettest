@@ -11,7 +11,8 @@ interface IWeatherData {
     description: string,
     temp: number,
     pressure: number,
-    sunset: string
+    sunset: string,
+    main: string
 }
 
 const weatherData: IWeatherData = {
@@ -19,8 +20,22 @@ const weatherData: IWeatherData = {
     description: null,
     temp: null,
     pressure: null,
-    sunset: null
+    sunset: null,
+    main: null
 };
+
+function setWeatherData ({main, name, sys, weather}: any) {
+    weatherData.name = name;
+    weatherData.description = weather[0].description;
+    weatherData.temp = main.temp;
+    weatherData.pressure = main.pressure;
+    let date = new Date(sys.sunset * 1000);
+    let hours = date.getHours();
+    let minutes = "0" + date.getMinutes();
+    weatherData.sunset = hours + ':' + minutes.substr(-2);
+    weatherData.main = weather[0].main;
+    return true
+}
 
 const SearchBar = () => {
     const [inputLocation, setInputLocation] = useState('');
@@ -33,18 +48,17 @@ const SearchBar = () => {
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         await fetch('https://api.openweathermap.org/data/2.5/weather?q=' + inputLocation + '&appid=6852b987d7fb620280f800f5ddfbe188&lang=ru&units=metric')
-            .then(response => response.json())
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Something went wrong');
+            })
             .then(data => {
-                dispatch(showWeatherBlock(true))
-                weatherData.name = data.name;
-                weatherData.description = data.weather[0].description;
-                weatherData.temp = data.main.temp;
-                weatherData.pressure = data.main.pressure;
-                let date = new Date(data.sys.sunset * 1000);
-                let hours = date.getHours();
-                let minutes = "0" + date.getMinutes();
-                weatherData.sunset = hours + ':' + minutes.substr(-2);
-                dispatch(getWeatherInfo(weatherData))
+                console.log(data)
+                setWeatherData(data)
+                dispatch(getWeatherInfo(weatherData));
+                dispatch(showWeatherBlock(true));
             })
             .catch(error => console.log(error))
     }
