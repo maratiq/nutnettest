@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import Header from "./components/Header/Header";
 import SearchBar from "./components/SearchBar/SearchBar";
-import BookmarkInfo from "./components/BookmarkInfo/BookmarkInfo";
+import Bookmarks from "./components/Bookmarks/Bookmarks";
 import WeatherBlock from "./components/WeatherBlock/WeatherBlock";
 
 
@@ -10,7 +10,7 @@ const App = () => {
         <Fragment>
                 <Header/>
                 <SearchBar/>
-                <BookmarkInfo/>
+                <Bookmarks/>
                 <WeatherBlock/>
         </Fragment>
     )

@@ -1,10 +1,10 @@
 import React from 'react';
-import styles from './BookmarkInfo.module.css';
+import styles from './Bookmarks.module.css';
 
 import BookmarkIcon from '../../assets/bookmark.svg';
 
 
-const BookmarkInfo = () => {
+const Bookmarks = () => {
     return (
         <div className={styles.bookmarkInfo}>
             <span className={styles.bookmarkInfo__text}>
@@ -16,4 +16,4 @@ const BookmarkInfo = () => {
     )
 }
 
-export default BookmarkInfo;
+export default Bookmarks;
