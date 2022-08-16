@@ -52,10 +52,27 @@ function getWeatherIcon (weather: string) {
     }
 }
 
+
+
 const WeatherBlock = () => {
     const isShowWeatherBlock = useAppSelector((state) => state.isShowWeatherBlock)
     const weatherData = useAppSelector((state) => state.weatherData)
     const dispatch = useAppDispatch();
+
+    const bookmarkHandler = () => {
+        let storage = localStorage.getItem('cities')
+        if (storage) {
+            const citiesArr = JSON.parse(storage);
+            citiesArr.push(weatherData.name)
+            localStorage.setItem('cities', JSON.stringify(citiesArr))
+        } else {
+            localStorage.setItem('cities', JSON.stringify([]))
+            const citiesArr = JSON.parse(storage);
+            citiesArr.push(weatherData.name)
+            localStorage.setItem('cities', JSON.stringify(citiesArr))
+        }
+
+    }
 
     if (isShowWeatherBlock) {
         return (
@@ -66,7 +83,7 @@ const WeatherBlock = () => {
                     <img src={arrowLeft} alt={'Стрелка влево'} />
                     Назад
                 </button>
-                <img className={styles.weatherBlock__bookmark} alt={'Закладка'} src={bookmarkIcon}/>
+                <img className={styles.weatherBlock__bookmark} alt={'Закладка'} src={bookmarkIcon} onClick={bookmarkHandler}/>
                 <div className={styles.weatherBlock__info}>
                     <h1 className={styles.weatherBlock__cityName}>{weatherData.name}</h1>
                     <span className={styles.weatherBlock__condition}>{weatherData.description}</span>
