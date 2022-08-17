@@ -3,15 +3,19 @@ import styles from './Bookmarks.module.css';
 
 import BookmarkIcon from '../../assets/bookmark.svg';
 import Bookmark from "../Bookmark/Bookmark";
+import {useAppSelector} from "../../hooks";
+
 
 const Bookmarks = () => {
     const [isBookmarkExists, setIsBookmarkExists] = useState(false);
     const [citiesArr, setCitiesArr] = useState(null);
+    const isShowWeatherBlock = useAppSelector((state) => state.isShowWeatherBlock)
 
     useEffect(() => {
-        if (localStorage.getItem('cities') && localStorage.getItem('cities').length !== 0) {
+        if (localStorage.getItem('cities') && JSON.parse(localStorage.getItem('cities')).length !== 0) {
             setIsBookmarkExists(true)
-            setCitiesArr(localStorage.getItem('cities'))
+        } else {
+            setIsBookmarkExists(false)
         }
     })
 
@@ -28,7 +32,12 @@ const Bookmarks = () => {
     } else if (isBookmarkExists === true) {
         return (
                 <div className={styles.bookmarkWrapper}>
-                    <Bookmark/>
+
+                    {
+                        JSON.parse(localStorage.getItem('cities')).map((city: string) => {
+                            return <Bookmark key={city} cityName={city}/>
+                        })
+                    }
                 </div>
         )
     }
