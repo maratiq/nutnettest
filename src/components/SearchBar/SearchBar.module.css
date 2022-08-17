@@ -6,6 +6,10 @@
     align-items: center;
 }
 
+.searchBar__marginless {
+    margin-bottom: 17px;
+}
+
 .searchBar__input {
     width: 510px;
     height: 56px;

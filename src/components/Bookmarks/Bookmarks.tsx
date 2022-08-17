@@ -3,19 +3,23 @@ import styles from './Bookmarks.module.css';
 
 import BookmarkIcon from '../../assets/bookmark.svg';
 import Bookmark from "../Bookmark/Bookmark";
-import {useAppSelector} from "../../hooks";
+import {useAppDispatch, useAppSelector} from "../../hooks";
+import {updateIsBookmarkExists} from "../../store/actions";
 
 
 const Bookmarks = () => {
     const [isBookmarkExists, setIsBookmarkExists] = useState(false);
     const isShowWeatherBlock = useAppSelector((state) => state.isShowWeatherBlock)
+    const dispatch = useAppDispatch();
 
 
     useEffect(() => {
         if (localStorage.getItem('cities') && JSON.parse(localStorage.getItem('cities')).length !== 0) {
             setIsBookmarkExists(true)
+            dispatch(updateIsBookmarkExists(true))
         } else {
             setIsBookmarkExists(false)
+            dispatch(updateIsBookmarkExists(false))
         }
     })
 

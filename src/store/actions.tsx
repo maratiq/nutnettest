@@ -8,3 +8,8 @@ export const getWeatherInfo = (data: any) => ({
     type: actions.GET_WEATHER_INFO,
     payload: data
 });
+
+export const updateIsBookmarkExists = (data: any) => ({
+    type: actions.UPDATE_IS_BOOKMARK_EXISTS,
+    payload: data
+});
