@@ -8,8 +8,8 @@ import {useAppSelector} from "../../hooks";
 
 const Bookmarks = () => {
     const [isBookmarkExists, setIsBookmarkExists] = useState(false);
-    const [citiesArr, setCitiesArr] = useState(null);
     const isShowWeatherBlock = useAppSelector((state) => state.isShowWeatherBlock)
+
 
     useEffect(() => {
         if (localStorage.getItem('cities') && JSON.parse(localStorage.getItem('cities')).length !== 0) {
@@ -18,6 +18,11 @@ const Bookmarks = () => {
             setIsBookmarkExists(false)
         }
     })
+
+    const bookmarks = JSON.parse(localStorage.getItem('cities')).map((city: string) => {
+        return <Bookmark key={city} cityName={city}/>
+    })
+
 
     if (isBookmarkExists === false) {
         return (
@@ -32,11 +37,8 @@ const Bookmarks = () => {
     } else if (isBookmarkExists === true) {
         return (
                 <div className={styles.bookmarkWrapper}>
-
                     {
-                        JSON.parse(localStorage.getItem('cities')).map((city: string) => {
-                            return <Bookmark key={city} cityName={city}/>
-                        })
+                        bookmarks
                     }
                 </div>
         )

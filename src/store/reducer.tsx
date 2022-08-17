@@ -2,7 +2,7 @@ import * as actions from './actionTypes';
 
 const initialState = {
     isShowWeatherBlock: false,
-    weatherData: {}
+    weatherData: {},
 }
 
 export default function reducer(state:any = initialState, action:any) {

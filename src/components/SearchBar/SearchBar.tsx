@@ -47,7 +47,7 @@ const SearchBar = () => {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        await fetch('https://api.openweathermap.org/data/2.5/weather?q=' + inputLocation + '&appid=6852b987d7fb620280f800f5ddfbe188&lang=ru&units=metric')
+        await fetch('https://api.openweathermap.org/data/2.5/weather?q=' + inputLocation + '&appid=ac25327913087d4147aca161c770e022&lang=ru&units=metric')
             .then(response => {
                 if (response.ok) {
                     return response.json();
@@ -55,7 +55,6 @@ const SearchBar = () => {
                 throw new Error('Something went wrong');
             })
             .then(data => {
-                console.log(data)
                 setWeatherData(data)
                 dispatch(getWeatherInfo(weatherData));
                 dispatch(showWeatherBlock(true));

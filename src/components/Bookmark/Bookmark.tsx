@@ -33,7 +33,6 @@ function setWeatherData ({main, name, weather}: any) {
     weatherData.name = name;
     weatherData.temp = main.temp;
     weatherData.main = weather[0].main;
-    console.log(weatherData)
     return true
 }
 
@@ -73,7 +72,7 @@ function getWeatherIcon (weather: string) {
 }
 
 const getWeather = async (cityName: string) => {
-    await fetch('https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&appid=6852b987d7fb620280f800f5ddfbe188&lang=ru&units=metric')
+    await fetch('https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&appid=ac25327913087d4147aca161c770e022&lang=ru&units=metric')
         .then(response => {
             if (response.ok) {
                 return response.json();
@@ -91,21 +90,26 @@ const getWeather = async (cityName: string) => {
 
 
 const Bookmark = ({ cityName }: BookmarkProps) => {
-    const [isWeatherDataReceived, setIsWeatherDataReceived] = useState(false);
+    const [name, setName] = useState(null);
+    const [temp, setTemp] = useState(null);
+    const [main, setMain] = useState(null);
 
     useEffect(() => {
+        console.log(111);
         const fetchData = async () => {
-            const data = await getWeather(cityName);
-            setIsWeatherDataReceived(true);
+            await getWeather(cityName);
+            setName(weatherData.name)
+            setTemp(weatherData.temp)
+            setMain(weatherData.main)
         }
         fetchData().catch(console.error);
-    })
+    }, [])
 
     return (
         <div className={styles.bookmark}>
-            <span className={styles.bookmark__cityName}>{ weatherData.name }</span>
-            <span className={styles.bookmark__temp}>{ weatherData.temp }°</span>
-            <img className={styles.bookmark__icon} src={getWeatherIcon(weatherData.main)} alt={'Погода'}/>
+            <span className={styles.bookmark__cityName}>{ name }</span>
+            <span className={styles.bookmark__temp}>{ temp }°</span>
+            <img className={styles.bookmark__icon} src={getWeatherIcon(main)} alt={'Погода'}/>
         </div>
     )
 }
