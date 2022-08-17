@@ -9,10 +9,9 @@ const Bookmarks = () => {
     const [citiesArr, setCitiesArr] = useState(null);
 
     useEffect(() => {
-        if (localStorage.getItem('cities').length !== 0) {
+        if (localStorage.getItem('cities') && localStorage.getItem('cities').length !== 0) {
             setIsBookmarkExists(true)
             setCitiesArr(localStorage.getItem('cities'))
-            console.log(citiesArr);
         }
     })
 

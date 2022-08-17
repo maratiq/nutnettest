@@ -38,6 +38,10 @@
     height: 24px;
 }
 
+.weatherBlock__bookmark:hover {
+    cursor: pointer;
+}
+
 .weatherBlock__info {
     display: flex;
     flex-direction: column;

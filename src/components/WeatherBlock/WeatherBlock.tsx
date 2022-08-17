@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './WeatherBlock.module.css';
 
 import arrowLeft from '../../assets/chevron_big_left.svg';
 import bookmarkIcon from "../../assets/bookmark.svg";
+import bookmarkUseIcon from "../../assets/bookmark_use.svg";
 import thunderstorm from '../../assets/thunderstorm.svg';
 import drizzle from '../../assets/drizzle.svg';
 import rain from '../../assets/rain.svg';
@@ -52,27 +53,50 @@ function getWeatherIcon (weather: string) {
     }
 }
 
+function toggleCityInLocalStorage(cityName: string) {
+    let storage = localStorage.getItem('cities')
+    if (!storage) {
+        localStorage.setItem('cities', JSON.stringify([]))
+        storage = localStorage.getItem('cities');
+    }
+    const citiesArr = JSON.parse(storage);
+    if (!citiesArr.includes(cityName)) {
+        citiesArr.push(cityName)
+    } else {
+        citiesArr.splice(citiesArr.indexOf(cityName), 1);
+    }
+    localStorage.setItem('cities', JSON.stringify(citiesArr))
+}
 
+function findCityInLocalStorage(cityName: string) {
+    let storage = localStorage.getItem('cities')
+    if (storage) {
+        const citiesArr = JSON.parse(storage);
+        return !!citiesArr.includes(cityName);
+    }
+}
 
 const WeatherBlock = () => {
     const isShowWeatherBlock = useAppSelector((state) => state.isShowWeatherBlock)
     const weatherData = useAppSelector((state) => state.weatherData)
     const dispatch = useAppDispatch();
+    const [isAddedToBookmarks, setIsAddedToBookmarks] = useState(false);
 
     const bookmarkHandler = () => {
-        let storage = localStorage.getItem('cities')
-        if (storage) {
-            const citiesArr = JSON.parse(storage);
-            citiesArr.push(weatherData.name)
-            localStorage.setItem('cities', JSON.stringify(citiesArr))
-        } else {
-            localStorage.setItem('cities', JSON.stringify([]))
-            const citiesArr = JSON.parse(storage);
-            citiesArr.push(weatherData.name)
-            localStorage.setItem('cities', JSON.stringify(citiesArr))
-        }
-
+        toggleCityInLocalStorage(weatherData.name);
+        setIsAddedToBookmarks(current => !current)
     }
+
+    const toggleBookmarkIcon = () => {
+        if (isAddedToBookmarks) {
+            return bookmarkUseIcon
+        }
+        return bookmarkIcon
+    }
+
+    useEffect(() => {
+        setIsAddedToBookmarks(findCityInLocalStorage(weatherData.name))
+    })
 
     if (isShowWeatherBlock) {
         return (
@@ -83,7 +107,7 @@ const WeatherBlock = () => {
                     <img src={arrowLeft} alt={'Стрелка влево'} />
                     Назад
                 </button>
-                <img className={styles.weatherBlock__bookmark} alt={'Закладка'} src={bookmarkIcon} onClick={bookmarkHandler}/>
+                <img className={styles.weatherBlock__bookmark} alt={'Закладка'} src={toggleBookmarkIcon()} onClick={bookmarkHandler}/>
                 <div className={styles.weatherBlock__info}>
                     <h1 className={styles.weatherBlock__cityName}>{weatherData.name}</h1>
                     <span className={styles.weatherBlock__condition}>{weatherData.description}</span>
