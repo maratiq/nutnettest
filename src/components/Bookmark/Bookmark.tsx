@@ -11,6 +11,8 @@ import squall from "../../assets/squall.svg";
 import tornado from "../../assets/tornado.svg";
 import clear from "../../assets/clear.svg";
 import clouds from "../../assets/clouds.svg";
+import {useAppDispatch} from "../../hooks";
+import {getWeatherInfo, showWeatherBlock} from "../../store/actions";
 
 type BookmarkProps = {
     cityName?: string,
@@ -19,19 +21,31 @@ type BookmarkProps = {
 
 interface IWeatherData {
     name: string,
+    description: string,
     temp: number,
+    pressure: number,
+    sunset: string,
     main: string
 }
 
 const weatherData: IWeatherData = {
     name: null,
+    description: null,
     temp: null,
+    pressure: null,
+    sunset: null,
     main: null
-}
+};
 
-function setWeatherData ({main, name, weather}: any) {
+function setWeatherData ({main, name, sys, weather}: any) {
     weatherData.name = name;
+    weatherData.description = weather[0].description;
     weatherData.temp = main.temp;
+    weatherData.pressure = main.pressure;
+    let date = new Date(sys.sunset * 1000);
+    let hours = date.getHours();
+    let minutes = "0" + date.getMinutes();
+    weatherData.sunset = hours + ':' + minutes.substr(-2);
     weatherData.main = weather[0].main;
     return true
 }
@@ -93,9 +107,9 @@ const Bookmark = ({ cityName }: BookmarkProps) => {
     const [name, setName] = useState(null);
     const [temp, setTemp] = useState(null);
     const [main, setMain] = useState(null);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
-        console.log(111);
         const fetchData = async () => {
             await getWeather(cityName);
             setName(weatherData.name)
@@ -105,8 +119,24 @@ const Bookmark = ({ cityName }: BookmarkProps) => {
         fetchData().catch(console.error);
     }, [])
 
+    const clickHandler = async () => {
+        await fetch('https://api.openweathermap.org/data/2.5/weather?q=' + name + '&appid=ac25327913087d4147aca161c770e022&lang=ru&units=metric')
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Something went wrong');
+            })
+            .then(data => {
+                setWeatherData(data)
+                dispatch(getWeatherInfo(weatherData));
+                dispatch(showWeatherBlock(true));
+            })
+            .catch(error => console.log(error))
+    }
+
     return (
-        <div className={styles.bookmark}>
+        <div className={styles.bookmark} onClick={clickHandler}>
             <span className={styles.bookmark__cityName}>{ name }</span>
             <span className={styles.bookmark__temp}>{ temp }°</span>
             <img className={styles.bookmark__icon} src={getWeatherIcon(main)} alt={'Погода'}/>
