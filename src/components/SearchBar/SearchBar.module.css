@@ -42,13 +42,19 @@
     font-size: 16px;
     font-weight: 400;
     line-height: 19px;
-    color: #FFFFFF;
+    color: #8A91AB;
     background-color: #30354B;
     border-radius: 0 0 3px 3px;
     z-index: 99;
     padding: 20px;
     box-sizing: border-box;
     cursor: pointer;
+
+}
+
+.searchBar__pieceOfText {
+    position: absolute;
+    color: #FFFFFF;
 }
 
 .searchBar__label {

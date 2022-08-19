@@ -143,10 +143,12 @@ const SearchBar = () => {
                 />
                 {
                     results.length !== 0 && results.map((item) => {
-                        return <div key={item} className={styles.searchBar__autocompleteItem} onClick={handleOnClick}>
-                                    {item}
+                        return (
+                            <div key={item} className={styles.searchBar__autocompleteItem} onClick={handleOnClick}>
+                                <span className={styles.searchBar__pieceOfText}>{inputLocation}</span>
+                                <span>{item}</span>
                             </div>
-
+                        )
                     })
 
                 }

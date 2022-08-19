@@ -23,7 +23,7 @@ const Bookmarks = () => {
         }
     })
 
-    const bookmarks = JSON.parse(localStorage.getItem('cities')).map((city: string) => {
+    const bookmarks = localStorage.getItem('cities') && JSON.parse(localStorage.getItem('cities')).map((city: string) => {
         return <Bookmark key={city} cityName={city}/>
     })
 
