@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './SearchBar.module.css';
 import classNames from 'classnames'
 
@@ -6,6 +6,8 @@ import classNames from 'classnames'
 import Arrow from '../../assets/arrow.svg';
 import {getWeatherInfo, showWeatherBlock} from "../../store/actions";
 import {useAppDispatch, useAppSelector} from "../../hooks";
+import useDebounce from "../../debounce";
+
 
 interface IWeatherData {
     name: string,
@@ -40,17 +42,20 @@ function setWeatherData ({main, name, sys, weather}: any) {
 
 const SearchBar = () => {
     const [inputLocation, setInputLocation] = useState('');
+    const [results, setResults] = useState([]);
+
+    const debouncedSearchTerm = useDebounce(inputLocation, 500);
+
     const dispatch = useAppDispatch();
     const isBookmarkExists = useAppSelector((state) => state.isBookmarkExists)
-    console.log(isBookmarkExists)
 
     const onCityClick = (e: any) => {
         setInputLocation(e.target.textContent);
     }
 
-    const handleSubmit = async (e: any) => {
-        e.preventDefault();
-        await fetch('https://api.openweathermap.org/data/2.5/weather?q=' + inputLocation + '&appid=ac25327913087d4147aca161c770e022&lang=ru&units=metric')
+    const findWeather = async (location?: string) => {
+        const currentLocation = location ? location : inputLocation
+        await fetch('https://api.openweathermap.org/data/2.5/weather?q=' + currentLocation + '&appid=ac25327913087d4147aca161c770e022&lang=ru&units=metric')
             .then(response => {
                 if (response.ok) {
                     return response.json();
@@ -63,6 +68,52 @@ const SearchBar = () => {
                 dispatch(showWeatherBlock(true));
             })
             .catch(error => console.log(error))
+    }
+
+    const handleSubmit = async (e: any) => {
+        e.preventDefault();
+        await findWeather();
+    }
+
+    function searchCharacters(search: any) {
+        const options = {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': 'c7782327c7msh9dfdd625cb31285p1a89b9jsnfca95aec0b0b',
+                'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com'
+            }
+        };
+            return fetch('https://wft-geo-db.p.rapidapi.com/v1/geo/cities?limit=1&minPopulation=1000000&namePrefix='+ search +'&sort=-countryCode&languageCode=ru', options)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.data.length !== 0) {
+                        return data.data[0].city
+                    } else {
+                        return null;
+                    }
+                })
+                .catch(err => console.error(err));
+    }
+
+    useEffect(() => {
+        if (debouncedSearchTerm && debouncedSearchTerm.length >= 3) {
+            searchCharacters(debouncedSearchTerm).then((data: any) => {
+                if (typeof data === "string") setResults([data]);
+            });
+        } else {
+            setResults([]);
+        }
+    }, [debouncedSearchTerm])
+
+
+
+    const handleOnChange = (cityData: any) => {
+        setInputLocation(cityData);
+    }
+
+    const handleOnClick = async () => {
+        setInputLocation(results[0])
+        await findWeather(results[0]);
     }
 
     const inputLabel =
@@ -82,13 +133,27 @@ const SearchBar = () => {
 
     return (
         <form className={formClassNames} onSubmit={handleSubmit}>
-            <input type={"text"}
-                   className={styles.searchBar__input}
-                   placeholder={'Укажите город'}
-                   id={'searchBar'}
-                   onChange={(e: any) => setInputLocation(e.target.value)}
-                   value={inputLocation}
-            />
+            <div className={styles.searchBar__autocomplete}>
+                <input type={"text"}
+                       className={styles.searchBar__input}
+                       placeholder={'Укажите город'}
+                       id={'searchBar'}
+                       onChange={(e: any) => handleOnChange(e.target.value)}
+                       value={inputLocation}
+                />
+                {
+                    results.length !== 0 && results.map((item) => {
+                        return <div key={item} className={styles.searchBar__autocompleteItem} onClick={handleOnClick}>
+                                    {item}
+                            </div>
+
+                    })
+
+                }
+
+            </div>
+
+
             { !isBookmarkExists &&
                 inputLabel
             }

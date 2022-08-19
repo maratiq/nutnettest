@@ -5,6 +5,7 @@
     right: 0;
     bottom: 0;
     background: radial-gradient(80.36% 80.36% at 50% 0%, #5A607C 0%, #161B30 100%);
+    z-index: 999;
 }
 
 .weatherBlock__buttonBack {

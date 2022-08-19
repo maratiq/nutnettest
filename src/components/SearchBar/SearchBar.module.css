@@ -29,6 +29,28 @@
     color: #8A91AB;
 }
 
+.searchBar__autocomplete {
+    position: relative;
+}
+
+.searchBar__autocompleteItem {
+    position: absolute;
+    top: 53px;
+    width: 510px;
+    height: 59px;
+    font-family: SF Pro Display, serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19px;
+    color: #FFFFFF;
+    background-color: #30354B;
+    border-radius: 0 0 3px 3px;
+    z-index: 99;
+    padding: 20px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
 .searchBar__label {
     height: 38px;
     width: 170px;
