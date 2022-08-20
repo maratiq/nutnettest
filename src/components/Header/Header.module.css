@@ -1,23 +1,20 @@
 .header {
     width: 100%;
     height: 65px;
-    background-color: #2A2F45;
     font-family: "SF Pro Display", serif;
     display: flex;
     align-items: center;
-    padding-left: 23px;
     box-sizing: border-box;
+    background-color: transparent;
 }
 
 .logo {
-    width: 30px;
-    height: 30px;
+    height: 65px;
+    width: 197px;
 }
 
-.title {
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 19px;
-    color: #FFFFFF;
-    margin-left: 12px;
+@media (min-width: 1152px) {
+    .header {
+        background-color: #2A2F45;
+    }
 }

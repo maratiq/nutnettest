@@ -138,7 +138,7 @@ const Bookmark = ({ cityName }: BookmarkProps) => {
     return (
         <div className={styles.bookmark} onClick={clickHandler}>
             <span className={styles.bookmark__cityName}>{ name }</span>
-            <span className={styles.bookmark__temp}>{ temp }°</span>
+            <span className={styles.bookmark__temp}>{ Math.round(temp) }°</span>
             <img className={styles.bookmark__icon} src={getWeatherIcon(main)} alt={'Погода'}/>
         </div>
     )

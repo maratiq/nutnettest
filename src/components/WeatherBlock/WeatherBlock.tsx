@@ -105,14 +105,14 @@ const WeatherBlock = () => {
                     dispatch(showWeatherBlock(false));
                 }}>
                     <img src={arrowLeft} alt={'Стрелка влево'} />
-                    Назад
+                    <span className={styles.weatherBlock__buttonBackText}>Назад</span>
                 </button>
                 <img className={styles.weatherBlock__bookmark} alt={'Закладка'} src={toggleBookmarkIcon()} onClick={bookmarkHandler}/>
                 <div className={styles.weatherBlock__info}>
                     <h1 className={styles.weatherBlock__cityName}>{weatherData.name}</h1>
                     <span className={styles.weatherBlock__condition}>{weatherData.description}</span>
                     <div className={styles.weatherBlock__temperatureConditionWrapper}>
-                        <span className={styles.weatherBlock__temperatureValue}>{weatherData.temp}°</span>
+                        <span className={styles.weatherBlock__temperatureValue}>{Math.round(weatherData.temp)}°</span>
                         <img className={styles.weatherBlock__conditionIcon} src={getWeatherIcon(weatherData.main)} alt={'Погода'}/>
                     </div>
                     <div className={styles.weatherBlock__pressure}>

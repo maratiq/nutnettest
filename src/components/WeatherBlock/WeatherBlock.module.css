@@ -1,11 +1,11 @@
 .weatherBlock {
     position: absolute;
-    top: 65px;
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(80.36% 80.36% at 50% 0%, #5A607C 0%, #161B30 100%);
     z-index: 999;
+    top: 0;
+    background: linear-gradient(180deg, #5A607C 0%, #161B30 49.93%);
 }
 
 .weatherBlock__buttonBack {
@@ -23,8 +23,8 @@
     align-items: center;
     justify-content: space-between;
     position: absolute;
-    left: 34px;
-    top: 24px;
+    left: 20px;
+    top: 20px;
 }
 
 .weatherBlock__buttonBack:hover {
@@ -33,8 +33,8 @@
 
 .weatherBlock__bookmark {
     position: absolute;
-    right: 34px;
-    top: 24px;
+    right: 20px;
+    top: 20px;
     width: 24px;
     height: 24px;
 }
@@ -52,52 +52,53 @@
 }
 
 .weatherBlock__cityName {
-    font-size: 56px;
     font-weight: 500;
-    line-height: 62px;
     margin-bottom: 16px;
-    margin-top: 76px;
+    font-size: 24px;
+    line-height: 27px;
+    margin-top: 92px;
 }
 
 .weatherBlock__condition {
-    font-size: 16px;
     font-weight: 400;
-    line-height: 18px;
     margin-bottom: 16px;
+    font-size: 14px;
+    line-height: 15px;
 }
 
 .weatherBlock__temperatureConditionWrapper {
     display: flex;
     align-items: center;
-    margin-bottom: 63px;
+    flex-direction: column;
+    margin-bottom: 21px;
 }
 
 .weatherBlock__temperatureValue {
-    font-size: 130px;
     font-weight: 600;
-    line-height: 144px;
     background: linear-gradient(180deg, #FFFFFF 11.65%, rgba(255, 255, 255, 0) 139.47%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    font-size: 120px;
+    line-height: 133px;
 }
 
 .weatherBlock__conditionIcon {
-    width: 191px;
-    height: 191px;
+    width: 180px;
+    height: 180px;
 }
 
 .weatherBlock__pressure {
     display: flex;
     align-items: end;
     height: 24px;
-    margin-bottom: 32px;
+    margin-bottom: 40px;
 }
 
 .weatherBlock__pressureValue {
     margin-left: 9px;
-    font-size: 16px;
     font-weight: 400;
-    line-height: 19px;
+    font-size: 14px;
+    line-height: 17px;
 }
 
 .weatherBlock__sunset {
@@ -105,4 +106,64 @@
     font-weight: 400;
     line-height: 18px;
     color: #8A91AB;
+}
+
+.weatherBlock__buttonBackText {
+    display: none;
+}
+
+@media (min-width: 1152px) {
+    .weatherBlock {
+        background: radial-gradient(80.36% 80.36% at 50% 0%, #5A607C 0%, #161B30 100%);
+        top: 65px;
+    }
+
+    .weatherBlock__buttonBack {
+        left: 34px;
+        top: 24px;
+    }
+
+    .weatherBlock__bookmark {
+        right: 34px;
+        top: 24px;
+    }
+
+    .weatherBlock__buttonBackText {
+        display: inline;
+    }
+
+    .weatherBlock__cityName {
+        font-size: 56px;
+        line-height: 62px;
+        margin-top: 76px;
+    }
+
+    .weatherBlock__condition {
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    .weatherBlock__temperatureConditionWrapper {
+        margin-bottom: 63px;
+        flex-direction: row;
+    }
+
+    .weatherBlock__temperatureValue {
+        font-size: 130px;
+        line-height: 144px;
+    }
+
+    .weatherBlock__conditionIcon {
+        width: 191px;
+        height: 191px;
+    }
+
+    .weatherBlock__pressure {
+        margin-bottom: 32px;
+    }
+
+    .weatherBlock__pressureValue {
+        font-size: 16px;
+        line-height: 19px;
+    }
 }

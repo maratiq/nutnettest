@@ -1,6 +1,5 @@
 .bookmark {
     height: 190px;
-    width: 270px;
     border-radius: 6px;
     display: flex;
     flex-direction: column;
@@ -13,8 +12,9 @@
     color: #FFFFFF;
     box-sizing: border-box;
     background: rgba(41, 46, 68, 0.5);
-    margin-bottom: 30px;
     cursor: pointer;
+    width: 158px;
+    margin-bottom: 20px;
 }
 
 .bookmark__cityName {
@@ -30,4 +30,11 @@
 .bookmark__icon {
     height: 78px;
     width: 78px;
+}
+
+@media (min-width: 1152px) {
+    .bookmark {
+        width: 270px;
+        margin-bottom: 30px;
+    }
 }
