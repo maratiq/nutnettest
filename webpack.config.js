@@ -2,6 +2,8 @@
 const path = require('path');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const WorkboxPlugin = require('workbox-webpack-plugin');
+const  WebpackPwaManifest = require('webpack-pwa-manifest');
 
 module.exports = {
     mode: 'none',
@@ -65,7 +67,26 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'src', 'index.html'),
-            favicon: "./src/assets/app_icon.svg"
+            favicon: "./src/assets/app_icon.png",
+        }),
+        new WorkboxPlugin.GenerateSW({
+            // these options encourage the ServiceWorkers to get in there fast
+            // and not allow any straggling "old" SWs to hang around
+            clientsClaim: true,
+            skipWaiting: true,
+        }),
+        new WebpackPwaManifest({
+            name: 'WeatherCheck',
+            short_name: 'WeatherCheck',
+            description: 'My awesome Progressive Web App!',
+            background_color: '#ffffff',
+            crossorigin: 'use-credentials', //can be null, use-credentials or anonymous
+            icons: [
+                {
+                    src: path.resolve('src/assets/app_icon.png'),
+                    sizes: [96, 128, 192, 256, 384, 512] // multiple sizes
+                }
+            ]
         })
     ]
 
